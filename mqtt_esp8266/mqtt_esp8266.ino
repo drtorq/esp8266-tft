@@ -19,6 +19,20 @@
 #include "Adafruit_MQTT.h"
 #include "Adafruit_MQTT_Client.h"
 
+
+/************************* Initialize ST7798 LCD Display *********************************/
+#include <Adafruit_GFX.h>    // Core graphics library
+#include <Adafruit_ST7789.h> // Hardware-specific library for ST7789
+#include <SPI.h>
+
+// defined(ESP8266)
+  #define TFT_CS         4
+  #define TFT_RST        16                                            
+  #define TFT_DC         5
+
+// For 1.14", 1.3", 1.54", 1.69", and 2.0" TFT with ST7789:
+Adafruit_ST7789 tft = Adafruit_ST7789(TFT_CS, TFT_DC, TFT_RST);
+
 /************************* WiFi Access Point *********************************/
 
 #define WLAN_SSID       "robnet3"
@@ -85,6 +99,9 @@ void setup() {
 
   // Setup MQTT subscription for onoff feed.
   mqtt.subscribe(&onoffbutton);
+
+
+Serial.println("Process Completed");
 }
 
 uint32_t x=0;
@@ -93,6 +110,14 @@ void loop() {
   // Ensure the connection to the MQTT server is alive (this will make the first
   // connection and automatically reconnect when disconnected).  See the MQTT_connect
   // function definition further below.
+  // tft.setTextWrap(false);
+  // tft.fillScreen(ST77XX_BLACK);
+  // tft.setCursor(0, 100);
+    
+  // tft.setTextColor(ST77XX_GREEN);
+  // tft.setTextSize(3);
+  // tft.println("drtorq");
+  
   MQTT_connect();
 
   // this is our 'wait for incoming subscription packets' busy subloop
@@ -103,9 +128,14 @@ void loop() {
     if (subscription == &onoffbutton) {
       Serial.print(F("Got: "));
       Serial.println((char *)onoffbutton.lastread);
+            
+      Serial.println("receiving from remote server");
+      // Serial.println((char *)onoffbutton.lastread);
     }
+
   }
 
+ 
   // Now we can publish stuff!
   Serial.print(F("\nSending photocell val "));
   Serial.print(x);

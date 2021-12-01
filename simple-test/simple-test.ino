@@ -33,7 +33,7 @@ void setup(void) {
   Serial.println("Hello! ST77xx TFT Test");
 
 tft.init(240, 320);           // Init ST7789 320x240    
-Serial.println("Initialized");
+Serial.println("TFT Initialized");
 
 // tft print function!
   tftPrintTest();
