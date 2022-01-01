@@ -1,2 +1,4 @@
 This is a text file under bug 2.
+Added a line to text2 file.
+Added another line to test2 file.
 
